@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, type RefObject } from "react";
 import { gsap, useGSAP } from "../lib/gsap";
 import { CONDICOES, lerMotion, type Condicoes, type Motion } from "../lib/motion";
 
@@ -15,10 +15,16 @@ type Setup<T extends HTMLElement> = (ctx: ContextoAnimacao<T>) => void | (() => 
 /**
  * useGSAP + gsap.matchMedia com scope no container.
  * Reverte tudo ao desmontar, quando as dependências mudam ou quando uma condição
- * (reduced motion, breakpoint) muda.
+ * (reduced motion, breakpoint) muda. Aceita uma ref externa quando o container
+ * precisa dela antes (ex.: para observar a visibilidade).
  */
-export function useAnimacao<T extends HTMLElement = HTMLElement>(setup: Setup<T>, dependencies: unknown[] = []) {
-  const scope = useRef<T>(null);
+export function useAnimacao<T extends HTMLElement = HTMLElement>(
+  setup: Setup<T>,
+  dependencies: unknown[] = [],
+  refExterna?: RefObject<T | null>,
+) {
+  const refInterna = useRef<T>(null);
+  const scope = refExterna ?? refInterna;
 
   useGSAP(
     () => {
