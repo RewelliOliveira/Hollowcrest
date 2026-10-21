@@ -97,9 +97,7 @@ export const RECURSOS: {
 
 export const MUNDO = {
   titulo: "O Mundo",
-  texto:
-    "Das montanhas geladas de Skarn às ruínas da Torre de Vidro, Hollowcrest esconde um reino inteiro sob a noite eterna.",
-  regioes: ["Montanhas de Skarn", "Castelo de Hollowcrest", "Bosque Cinzento"],
+  rotuloLista: "Regiões do reino",
 };
 
 export const ENCERRAMENTO = {

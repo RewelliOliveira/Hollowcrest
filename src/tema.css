@@ -23,14 +23,9 @@
   --color-ink-muted: #6b4f36; /* 5.5:1 */
   --color-ink-accent: #8f2a2f; /* 6.1:1 */
 
-  /* Céu e paisagem (camadas do mundo) */
+  /* Céu, lua e chão (fundos e luzes da paisagem) */
   --color-ceu: #1b1830;
-  --color-ceu-2: #2b2347;
   --color-lua: #f3e7c4;
-  --color-montanha-longe: #3a3358;
-  --color-montanha: #2a2540;
-  --color-castelo: #1d1a2a;
-  --color-floresta: #15131f;
   --color-chao: #0e0c13;
 
   /* Tipografia */

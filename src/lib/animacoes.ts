@@ -14,7 +14,7 @@ function atrasosAleatorios(quantidade: number, total: number) {
 }
 
 /** Liga/desliga de uma vez: opacidade parcial em milhares de grupos SVG pesa muito na pintura. */
-const INSTANTE = 0.001;
+export const INSTANTE = 0.001;
 
 /**
  * Lê o transform de todos os pixels antes de qualquer escrita. O GSAP guarda em cache,
@@ -103,4 +103,26 @@ export function piscarDano(flash: Element, alvo: Element, M: Motion) {
     .timeline()
     .fromTo(flash, { autoAlpha: 0 }, { autoAlpha: 1, duration: M.fast, ease: "steps(2)", repeat: 3, yoyo: true })
     .fromTo(alvo, { x: -2 }, { x: 2, duration: M.fast / 2, ease: "steps(1)", repeat: 3, yoyo: true, clearProps: "x" }, 0);
+}
+
+/**
+ * Transição de tela dos RPGs 16-bit: blocos cobrem a cena em ordem aleatória e somem em
+ * seguida. Troque a cena no rótulo "coberta" da timeline retornada.
+ */
+export function dissolverBlocos(blocos: Alvo, M: Motion) {
+  const passo = { amount: M.fast, from: "random" } as const;
+  return gsap
+    .timeline()
+    .to(blocos, { autoAlpha: 1, duration: INSTANTE, ease: "none", stagger: passo })
+    .addLabel("coberta")
+    .to(blocos, { autoAlpha: 0, duration: INSTANTE, ease: "none", stagger: passo });
+}
+
+/** Pausa loops infinitos (partículas, luzes) enquanto o container está fora da tela. Retorna a limpeza. */
+export function pausarForaDaTela(el: Element, animacoes: gsap.core.Animation[]) {
+  const observador = new IntersectionObserver(([entrada]) =>
+    animacoes.forEach((a) => (entrada.isIntersecting ? a.resume() : a.pause())),
+  );
+  observador.observe(el);
+  return () => observador.disconnect();
 }

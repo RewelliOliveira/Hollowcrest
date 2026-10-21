@@ -1,5 +1,6 @@
 import { useAnimacao } from "../../hooks/useAnimacao";
-import { gsap, ScrollTrigger } from "../../lib/gsap";
+import { pausarForaDaTela } from "../../lib/animacoes";
+import { gsap } from "../../lib/gsap";
 
 const QUANTIDADE = 28;
 
@@ -31,12 +32,7 @@ export function Brasas() {
         },
       ),
     );
-    ScrollTrigger.create({
-      trigger: el,
-      start: "top bottom",
-      end: "bottom top",
-      onToggle: ({ isActive }) => tweens.forEach((t) => (isActive ? t.resume() : t.pause())),
-    });
+    return pausarForaDaTela(el, tweens);
   });
 
   return (
