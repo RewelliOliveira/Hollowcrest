@@ -1,0 +1,101 @@
+{
+  "skarn": {
+    "original": [
+      1024,
+      765
+    ],
+    "proporcao": 1.3386,
+    "bloco_estimado": [
+      3.2,
+      3.2
+    ],
+    "fase": [
+      2.71,
+      1.24
+    ],
+    "grade_nativa": [
+      320.0,
+      239.1
+    ],
+    "tratada": [
+      320,
+      239
+    ],
+    "pixels_faixa_disfarcados": 0,
+    "cores": 19289,
+    "faixas_original": {
+      "colunas": [],
+      "linhas": []
+    },
+    "faixas_tratada": {
+      "colunas": [],
+      "linhas": []
+    }
+  },
+  "hollowcrest": {
+    "original": [
+      1024,
+      765
+    ],
+    "proporcao": 1.3386,
+    "bloco_estimado": [
+      3.2,
+      3.2
+    ],
+    "fase": [
+      2.74,
+      1.19
+    ],
+    "grade_nativa": [
+      320.0,
+      239.1
+    ],
+    "tratada": [
+      320,
+      239
+    ],
+    "pixels_faixa_disfarcados": 986,
+    "cores": 7260,
+    "faixas_original": {
+      "colunas": [],
+      "linhas": []
+    },
+    "faixas_tratada": {
+      "colunas": [],
+      "linhas": []
+    }
+  },
+  "bosque": {
+    "original": [
+      1024,
+      765
+    ],
+    "proporcao": 1.3386,
+    "bloco_estimado": [
+      3.2,
+      3.2
+    ],
+    "fase": [
+      2.69,
+      1.26
+    ],
+    "grade_nativa": [
+      320.0,
+      239.1
+    ],
+    "tratada": [
+      320,
+      239
+    ],
+    "pixels_faixa_disfarcados": 0,
+    "cores": 6672,
+    "faixas_original": {
+      "colunas": [],
+      "linhas": []
+    },
+    "faixas_tratada": {
+      "colunas": [],
+      "linhas": []
+    }
+  }
+}

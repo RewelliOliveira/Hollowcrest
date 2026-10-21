@@ -1,0 +1,50 @@
+{
+  "arqueiro": {
+    "bloco": 8.25,
+    "confianca": 0.259,
+    "grade": 128,
+    "tela": "111x149",
+    "cores": 32,
+    "pixels": 5627
+  },
+  "mago": {
+    "bloco": 6.75,
+    "confianca": 0.38,
+    "grade": 128,
+    "tela": "111x149",
+    "cores": 32,
+    "pixels": 6025
+  },
+  "berserker": {
+    "bloco": 22.75,
+    "confianca": 0.082,
+    "grade": 128,
+    "tela": "111x149",
+    "cores": 32,
+    "pixels": 8164
+  },
+  "lanceiro": {
+    "bloco": 6.75,
+    "confianca": 0.33,
+    "grade": 128,
+    "tela": "111x149",
+    "cores": 32,
+    "pixels": 4816
+  },
+  "assassino": {
+    "bloco": 6.75,
+    "confianca": 0.3,
+    "grade": 128,
+    "tela": "111x149",
+    "cores": 26,
+    "pixels": 4933
+  },
+  "paladino": {
+    "bloco": 6.75,
+    "confianca": 0.279,
+    "grade": 128,
+    "tela": "111x149",
+    "cores": 32,
+    "pixels": 7145
+  }
+}
