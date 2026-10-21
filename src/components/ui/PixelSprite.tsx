@@ -3,25 +3,24 @@ import { sprites, type NomePersonagem, type SpriteData } from "../../data/sprite
 
 type PixelSpriteProps = {
   nome: NomePersonagem;
-  /** "estatico": um <path> por cor. "animavel": um <rect> por pixel, para montar e desfazer. */
   modo?: "estatico" | "animavel";
-  /** Substitui a paleta original (mesma ordem de índices), para variações de cor. */
+  agrupamento?: number;
   paleta?: readonly string[];
-  /** Texto alternativo. Sem ele, o sprite é decorativo (aria-hidden). */
   rotulo?: string;
   className?: string;
   ref?: Ref<SVGSVGElement>;
 };
 
-/** Junta os pixels de mesma cor em um único path, unindo sequências horizontais. */
+type Bloco = { chave: string; caminhos: Map<number, string> };
+
+const pixel = (x: number, y: number, largura = 1) => `M${x} ${y}h${largura}v1h-${largura}z`;
+
 function caminhosPorCor(sprite: SpriteData): string[] {
   const caminhos = sprite.paleta.map(() => "");
   let anterior: { x: number; y: number; cor: number; largura: number } | null = null;
 
   const fechar = () => {
-    if (anterior) {
-      caminhos[anterior.cor] += `M${anterior.x} ${anterior.y}h${anterior.largura}v1h-${anterior.largura}z`;
-    }
+    if (anterior) caminhos[anterior.cor] += pixel(anterior.x, anterior.y, anterior.largura);
   };
 
   for (const [x, y, cor] of sprite.pixels) {
@@ -36,10 +35,53 @@ function caminhosPorCor(sprite: SpriteData): string[] {
   return caminhos;
 }
 
-export function PixelSprite({ nome, modo = "estatico", paleta, rotulo, className, ref }: PixelSpriteProps) {
+function blocosPorArea(sprite: SpriteData, n: number): Bloco[] {
+  const blocos = new Map<string, Bloco>();
+  for (const [x, y, cor] of sprite.pixels) {
+    const chave = `${Math.floor(x / n)}-${Math.floor(y / n)}`;
+    let bloco = blocos.get(chave);
+    if (!bloco) {
+      bloco = { chave, caminhos: new Map() };
+      blocos.set(chave, bloco);
+    }
+    bloco.caminhos.set(cor, (bloco.caminhos.get(cor) ?? "") + pixel(x, y));
+  }
+  return [...blocos.values()];
+}
+
+export function PixelSprite({
+  nome,
+  modo = "estatico",
+  agrupamento = 1,
+  paleta,
+  rotulo,
+  className,
+  ref,
+}: PixelSpriteProps) {
   const sprite = sprites[nome];
   const cores = paleta ?? sprite.paleta;
-  const caminhos = useMemo(() => caminhosPorCor(sprite), [sprite]);
+  const caminhos = useMemo(() => (modo === "estatico" ? caminhosPorCor(sprite) : []), [sprite, modo]);
+  const blocos = useMemo(
+    () => (modo === "animavel" && agrupamento > 1 ? blocosPorArea(sprite, agrupamento) : []),
+    [sprite, modo, agrupamento],
+  );
+
+  let conteudo;
+  if (modo === "estatico") {
+    conteudo = caminhos.map((d, cor) => (d ? <path key={cor} d={d} fill={cores[cor]} /> : null));
+  } else if (agrupamento > 1) {
+    conteudo = blocos.map((bloco) => (
+      <g key={bloco.chave} data-pixel="">
+        {[...bloco.caminhos].map(([cor, d]) => (
+          <path key={cor} d={d} fill={cores[cor]} />
+        ))}
+      </g>
+    ));
+  } else {
+    conteudo = sprite.pixels.map(([x, y, cor]) => (
+      <rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} fill={cores[cor]} data-pixel="" />
+    ));
+  }
 
   return (
     <svg
@@ -51,11 +93,7 @@ export function PixelSprite({ nome, modo = "estatico", paleta, rotulo, className
       aria-label={rotulo}
       aria-hidden={rotulo ? undefined : true}
     >
-      {modo === "estatico"
-        ? caminhos.map((d, cor) => (d ? <path key={cor} d={d} fill={cores[cor]} /> : null))
-        : sprite.pixels.map(([x, y, cor]) => (
-            <rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} fill={cores[cor]} data-cor={cor} />
-          ))}
+      {conteudo}
     </svg>
   );
 }
