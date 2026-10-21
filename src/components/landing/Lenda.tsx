@@ -13,10 +13,10 @@ export function Lenda() {
       transformOrigin: "50% 100%",
       duration: M.fast,
       ease: M.easePop,
-      scrollTrigger: { trigger: el, start: "top 75%", once: true },
+      scrollTrigger: { trigger: el, start: "top 75%", toggleActions: "play none none none" },
     });
     q("[data-linha]").forEach((linha) => {
-      const tl = gsap.timeline({ scrollTrigger: { trigger: linha, start: "top 80%", once: true } });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: linha, start: "top 80%", toggleActions: "play none none none" } });
       tl.from(linha.querySelector("[data-marcador]"), { autoAlpha: 0, duration: M.fast, ease: "steps(1)" }).add(
         digitar(linha, M),
       );

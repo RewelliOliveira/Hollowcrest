@@ -19,7 +19,7 @@ export function FichaHeroi({ classe }: FichaHeroiProps) {
   const ref = useAnimacao<HTMLDivElement>(
     ({ el, q, M, animar }) => {
       if (!animar) return;
-      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 70%", once: true } });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 70%", toggleActions: "play none none none" } });
       q("[data-digitar]").forEach((grupo, i) => tl.add(digitar(grupo, M, M.slow), i * M.stagger));
       tl.add(encherBarras(q('[data-bloco="cheio"]'), M), 0);
       tl.from(q("[data-habilidade-icone]"), { autoAlpha: 0, scale: 0, ease: M.easePop, duration: M.fast, stagger: M.stagger * 2 }, 0);

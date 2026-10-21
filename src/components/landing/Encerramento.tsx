@@ -8,7 +8,7 @@ export function Encerramento() {
   const ref = useAnimacao<HTMLElement>(({ el, q, M, animar }) => {
     if (!animar) return;
     gsap
-      .timeline({ scrollTrigger: { trigger: el, start: "top 70%", once: true } })
+      .timeline({ scrollTrigger: { trigger: el, start: "top 70%", toggleActions: "play none none none" } })
       .from(q("[data-heroi]"), { autoAlpha: 0, y: M.dist * 1.5, duration: M.dur, ease: M.ease, stagger: M.stagger * 3 })
       .from(q("[data-fim-titulo]"), { autoAlpha: 0, scale: 1.2, duration: M.dur, ease: M.easePop }, "-=0.2")
       .from(q("[data-fim-frase]"), { autoAlpha: 0, y: M.dist * 0.5, duration: M.dur, ease: M.ease }, "-=0.2");

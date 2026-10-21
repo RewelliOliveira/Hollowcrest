@@ -15,7 +15,7 @@ export function PainelClasse({ classe, onVerFicha }: PainelClasseProps) {
   const ref = useAnimacao<HTMLDivElement>(
     ({ el, q, M, animar }) => {
       if (!animar) return;
-      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 80%", once: true } });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 80%", toggleActions: "play none none none" } });
       tl.from(q("[data-painel-nome]"), { autoAlpha: 0, x: -M.dist, duration: M.fast, ease: M.ease })
         .add(digitar(q("[data-painel-frase]")[0], M, M.slow), "<")
         .add(encherBarras(q('[data-bloco="cheio"]'), M), "<");
