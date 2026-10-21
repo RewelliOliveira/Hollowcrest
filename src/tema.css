@@ -1,0 +1,67 @@
+/* Tema de Hollowcrest: castelo à noite iluminado por tochas.
+   Trocar o tema = editar só este arquivo (as fontes são carregadas em index.html). */
+:root {
+  /* Cores semânticas (contraste AA conferido) */
+  --color-bg: #14121a; /* pedra escura */
+  --color-surface: #221f2b;
+  --color-surface-2: #2d2938;
+  --color-text: #f0e6d2; /* pergaminho claro: 15:1 sobre bg */
+  --color-muted: #b3a891; /* 7.9:1 sobre bg */
+  --color-accent: #e8b64c; /* dourado: 9.9:1 sobre bg */
+  --color-accent-contrast: #14121a;
+  --color-accent-2: #b8333a; /* vermelho-sangue: só em superfícies e formas */
+  --color-accent-2-texto: #e0626a; /* vermelho para texto: 5.4:1 sobre bg */
+  --color-border: #5e5370;
+  --color-border-forte: #8a7c9e;
+  --color-focus: #e8b64c;
+  --color-flash: #ffffff; /* piscar de dano */
+
+  /* Pergaminho do Códex */
+  --color-parchment: #e9dcbf;
+  --color-parchment-2: #d8c7a1;
+  --color-ink: #2a2018; /* 11.7:1 sobre o pergaminho */
+  --color-ink-muted: #6b4f36; /* 5.5:1 */
+  --color-ink-accent: #8f2a2f; /* 6.1:1 */
+
+  /* Céu e paisagem (camadas do mundo) */
+  --color-ceu: #1b1830;
+  --color-ceu-2: #2b2347;
+  --color-lua: #f3e7c4;
+  --color-montanha-longe: #3a3358;
+  --color-montanha: #2a2540;
+  --color-castelo: #1d1a2a;
+  --color-floresta: #15131f;
+  --color-chao: #0e0c13;
+
+  /* Tipografia */
+  --font-display: "Press Start 2P", ui-monospace, monospace;
+  --font-body: "VT323", ui-monospace, monospace;
+
+  /* Escala fluida (375px → 1440px). VT323 é pequena: o corpo começa maior. */
+  --fs-xs: clamp(0.625rem, 0.6034rem + 0.0939vw, 0.6875rem);
+  --fs-sm: clamp(0.75rem, 0.7148rem + 0.1502vw, 0.85rem);
+  --fs-base: clamp(1.25rem, 1.1972rem + 0.2254vw, 1.4rem);
+  --fs-lg: clamp(1.4rem, 1.3155rem + 0.3606vw, 1.64rem);
+  --fs-xl: clamp(0.95rem, 0.8655rem + 0.3606vw, 1.19rem);
+  --fs-2xl: clamp(1.15rem, 0.9387rem + 0.9014vw, 1.75rem);
+  --fs-3xl: clamp(1.4rem, 1.0479rem + 1.5023vw, 2.4rem);
+  --fs-display: clamp(1.6rem, 1.019rem + 2.479vw, 3.25rem);
+
+  /* Entrelinhas: VT323 pede linhas justas; Press Start 2P precisa de respiro */
+  --leading-corpo: 1.25;
+  --leading-display: 1.4;
+
+  /* Espaço e forma */
+  --section-pad: clamp(4rem, 2.8rem + 5vw, 8rem);
+  --container: 1200px;
+  --pixel: 4px; /* espessura das bordas em blocos */
+
+  /* Movimento retrô: quadro a quadro (lido por src/lib/motion.ts) */
+  --motion-ease: steps(6);
+  --motion-ease-in-out: steps(10);
+  --motion-ease-pop: steps(3);
+  --motion-duration: 0.6;
+  --motion-stagger: 0.05;
+  --motion-distance: 32;
+  --motion-digitar: 0.02; /* segundos por letra na máquina de escrever */
+}
