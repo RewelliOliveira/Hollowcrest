@@ -13,7 +13,7 @@ export function CenarioMundo({ mundo, visivel, ativo }: CenarioMundoProps) {
   const { efeito } = mundo;
   return (
     <div data-cenario="" className={`absolute inset-0 ${visivel ? "" : "invisible"}`}>
-      <div data-parallax="" className="absolute -inset-x-[3%] top-0 bottom-[40%] lg:bottom-0">
+      <div data-parallax="" className="absolute -inset-x-[3%] top-0 bottom-[40%] will-change-transform lg:bottom-0">
         <img
           src={mundo.imagem}
           alt={mundo.alt}

@@ -48,12 +48,14 @@ export function Mundo() {
         end: `+=${ETAPAS * 80}%`,
         pin: true,
         scrub: animar ? 0.5 : false,
+        invalidateOnRefresh: true,
         onUpdate: ({ progress }) => mostrar(Math.min(ETAPAS - 1, Math.floor(progress * ETAPAS))),
       },
     });
     if (animar) {
+      const deslocar = (sinal: number) => (_: number, camada: HTMLElement) => (sinal * camada.offsetWidth * PARALLAX) / 100;
       q("[data-parallax]").forEach((camada, i) => {
-        tl.fromTo(camada, { xPercent: PARALLAX }, { xPercent: -PARALLAX }, i);
+        tl.fromTo(camada, { x: deslocar(1) }, { x: deslocar(-1), snap: { x: 1 } }, i);
       });
     }
 
