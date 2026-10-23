@@ -6,9 +6,10 @@ import { Neve } from "./Neve";
 type CenarioMundoProps = {
   mundo: Mundo;
   visivel: boolean;
+  ativo: boolean;
 };
 
-export function CenarioMundo({ mundo, visivel }: CenarioMundoProps) {
+export function CenarioMundo({ mundo, visivel, ativo }: CenarioMundoProps) {
   const { efeito } = mundo;
   return (
     <div data-cenario="" className={`absolute inset-0 ${visivel ? "" : "invisible"}`}>
@@ -21,10 +22,10 @@ export function CenarioMundo({ mundo, visivel }: CenarioMundoProps) {
           decoding="async"
           className="pixelado size-full object-cover object-right"
         />
-        {efeito.tipo === "janelas" && <JanelasPiscando janelas={efeito.janelas} />}
+        {efeito.tipo === "janelas" && <JanelasPiscando janelas={efeito.janelas} ativo={ativo} />}
       </div>
-      {efeito.tipo === "neve" && <Neve />}
-      {efeito.tipo === "brasas" && <Brasas />}
+      {efeito.tipo === "neve" && <Neve ativo={ativo} />}
+      {efeito.tipo === "brasas" && <Brasas ativo={ativo} />}
     </div>
   );
 }

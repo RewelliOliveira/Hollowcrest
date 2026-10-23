@@ -117,12 +117,3 @@ export function dissolverBlocos(blocos: Alvo, M: Motion) {
     .addLabel("coberta")
     .to(blocos, { autoAlpha: 0, duration: INSTANTE, ease: "none", stagger: passo });
 }
-
-/** Pausa loops infinitos (partículas, luzes) enquanto o container está fora da tela. Retorna a limpeza. */
-export function pausarForaDaTela(el: Element, animacoes: gsap.core.Animation[]) {
-  const observador = new IntersectionObserver(([entrada]) =>
-    animacoes.forEach((a) => (entrada.isIntersecting ? a.resume() : a.pause())),
-  );
-  observador.observe(el);
-  return () => observador.disconnect();
-}

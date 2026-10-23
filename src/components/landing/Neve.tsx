@@ -1,5 +1,5 @@
 import { useAnimacao } from "../../hooks/useAnimacao";
-import { pausarForaDaTela } from "../../lib/animacoes";
+import { useLoopsPausaveis } from "../../hooks/useLoopsPausaveis";
 import { gsap } from "../../lib/gsap";
 
 const QUANTIDADE = 40;
@@ -9,7 +9,12 @@ const FLOCOS = Array.from({ length: QUANTIDADE }, (_, i) => ({
   grande: i % 4 === 0,
 }));
 
-export function Neve() {
+type NeveProps = {
+  ativo?: boolean;
+};
+
+export function Neve({ ativo = true }: NeveProps) {
+  const pausaveis = useLoopsPausaveis(ativo);
   const ref = useAnimacao<HTMLDivElement>(({ el, q, M, animar }) => {
     if (!animar) return;
     const altura = el.offsetHeight;
@@ -30,7 +35,7 @@ export function Neve() {
         )
         .progress(gsap.utils.random(0, 1)),
     );
-    return pausarForaDaTela(el, tweens);
+    return pausaveis(el, tweens);
   });
 
   return (

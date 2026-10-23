@@ -1,5 +1,5 @@
 import { useAnimacao } from "../../hooks/useAnimacao";
-import { pausarForaDaTela } from "../../lib/animacoes";
+import { useLoopsPausaveis } from "../../hooks/useLoopsPausaveis";
 import { gsap } from "../../lib/gsap";
 
 const QUANTIDADE = 28;
@@ -10,7 +10,12 @@ const BRASAS = Array.from({ length: QUANTIDADE }, (_, i) => ({
   vermelha: i % 4 === 1,
 }));
 
-export function Brasas() {
+type BrasasProps = {
+  ativo?: boolean;
+};
+
+export function Brasas({ ativo = true }: BrasasProps) {
+  const pausaveis = useLoopsPausaveis(ativo);
   const ref = useAnimacao<HTMLDivElement>(({ el, q, M, animar }) => {
     if (!animar) return;
     const altura = el.offsetHeight;
@@ -32,7 +37,7 @@ export function Brasas() {
         },
       ),
     );
-    return pausarForaDaTela(el, tweens);
+    return pausaveis(el, tweens);
   });
 
   return (

@@ -1,13 +1,15 @@
 import { CENARIO, type Retangulo } from "../../data/mundos";
 import { useAnimacao } from "../../hooks/useAnimacao";
-import { pausarForaDaTela } from "../../lib/animacoes";
+import { useLoopsPausaveis } from "../../hooks/useLoopsPausaveis";
 import { gsap } from "../../lib/gsap";
 
 type JanelasPiscandoProps = {
   janelas: readonly Retangulo[];
+  ativo?: boolean;
 };
 
-export function JanelasPiscando({ janelas }: JanelasPiscandoProps) {
+export function JanelasPiscando({ janelas, ativo = true }: JanelasPiscandoProps) {
+  const pausaveis = useLoopsPausaveis(ativo);
   const ref = useAnimacao<HTMLDivElement>(({ el, q, M, animar }) => {
     if (!animar) return;
     const tweens = q("[data-janela]").map((janela) =>
@@ -21,7 +23,7 @@ export function JanelasPiscando({ janelas }: JanelasPiscandoProps) {
         delay: gsap.utils.random(0, M.slow * 3),
       }),
     );
-    return pausarForaDaTela(el, tweens);
+    return pausaveis(el, tweens);
   });
 
   return (

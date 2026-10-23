@@ -80,7 +80,7 @@ export function Mundo() {
       className="relative h-svh min-h-[34rem] overflow-clip bg-ceu"
     >
       {MUNDOS.map((mundo, i) => (
-        <CenarioMundo key={mundo.id} mundo={mundo} visivel={i === 0} />
+        <CenarioMundo key={mundo.id} mundo={mundo} visivel={i === 0} ativo={i === ativo} />
       ))}
       <DissolucaoBlocos />
       <div
