@@ -314,7 +314,16 @@ def ajustar_altura(img: Image.Image, altura: int) -> Image.Image:
 # Saída TypeScript
 # ---------------------------------------------------------------------------
 
+CARACTERES_COR = "0123456789abcdefghijklmnopqrstuv"  # um caractere por cor da paleta (máx. 32)
+CARACTERE_VAZIO = "."
+
+
 def gerar_ts(sprites: list[Sprite]) -> str:
+    """Cada sprite vira um mapa de texto (uma string por linha, um caractere por pixel).
+
+    Bem mais leve de baixar e de interpretar que uma lista de [x, y, cor]; os pixels
+    são decodificados uma vez quando o módulo carrega.
+    """
     linhas = [
         "// Arquivo gerado por scripts/tratar-personagens.py. Não editar à mão.",
         "",
@@ -328,19 +337,35 @@ def gerar_ts(sprites: list[Sprite]) -> str:
         "  readonly pixels: readonly Pixel[];",
         "};",
         "",
+        f'const CORES = "{CARACTERES_COR}";',
+        "",
+        "/** Mapa: uma string por linha, um caractere por pixel (índice em CORES ou \".\" para vazio). */",
+        "function decodificar(paleta: readonly string[], mapa: readonly string[]): SpriteData {",
+        "  const pixels: Pixel[] = [];",
+        "  mapa.forEach((linha, y) => {",
+        "    for (let x = 0; x < linha.length; x++) {",
+        "      const cor = CORES.indexOf(linha[x]);",
+        "      if (cor >= 0) pixels.push([x, y, cor]);",
+        "    }",
+        "  });",
+        "  return { largura: mapa[0].length, altura: mapa.length, paleta, pixels };",
+        "}",
+        "",
     ]
     for s in sprites:
-        h, w = s.indices.shape
+        assert len(s.paleta) <= len(CARACTERES_COR), f"{s.nome}: paleta com mais de {len(CARACTERES_COR)} cores"
         paleta = ",".join(f'"#{r:02x}{g:02x}{b:02x}"' for r, g, b in s.paleta.tolist())
-        ys, xs = np.nonzero(s.indices >= 0)
-        pixels = ",".join(f"[{x},{y},{s.indices[y, x]}]" for y, x in zip(ys.tolist(), xs.tolist()))
+        mapa = [
+            "".join(CARACTERES_COR[i] if i >= 0 else CARACTERE_VAZIO for i in linha)
+            for linha in s.indices.tolist()
+        ]
         linhas += [
-            f"export const {s.nome}: SpriteData = {{",
-            f"  largura: {w},",
-            f"  altura: {h},",
-            f"  paleta: [{paleta}],",
-            f"  pixels: [{pixels}],",
-            "};",
+            f"export const {s.nome} = decodificar(",
+            f"  [{paleta}],",
+            "  [",
+            *(f'    "{m}",' for m in mapa),
+            "  ],",
+            ");",
             "",
         ]
     nomes = ", ".join(s.nome for s in sprites)
